@@ -1,5 +1,3 @@
-$_.iter = 0; 
- 
 function getX() {
  	return new $_.Integer(document.getElementById("width").value);
 }
@@ -49,10 +47,17 @@ function rand(max) {
 	return Math.floor(Math.random() * max);
 }
 
+function start() {
+	$_.iter = 0;
+	animateWrapper();
+}
+
 function animateWrapper(newGrid) {
 	var iter = getIterations().num;
-	if ($_.iter >= iter)
+	if ($_.iter >= iter) {
+		$_.iter = 0;
 		return;
+	}
 	setTimeout(function() {animate(newGrid);}, 1000);
 	$_.iter++;
 }
