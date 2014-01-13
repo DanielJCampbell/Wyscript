@@ -40,7 +40,7 @@ function doClick(e) {
 	//y = ((posY - rect.top)\6);
 	
 	getGrid();
-	grid[posY][posX] = (grid[posY][posX] === 1) ? 0 : 1;
+	grid[posX][posY] = (grid[posX][posY] === 1) ? 0 : 1;
 }
 
 function getMaxNeighbours() {
