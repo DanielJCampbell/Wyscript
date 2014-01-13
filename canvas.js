@@ -17,22 +17,14 @@ function getMinNeighbours() {
 }
 
 function doClick(e) {
-	var posX = 0;
-	var posY = 0;
-	if (e.pageX || e.pageY) {
-		posX = e.pageX;
-		posY = e.pageY;
-	}
-	else if (e.clientX || e.clientY) {
-		posX = e.clientX;
-		posY = e.clientY;
-	}
+	var posX = screenX;
+	var posY = screenY;
 	
 	var rect = document.getElementById("canvas").getBoundingClientRect();
 	
 	//Needed tweaking, no other way I could get it to work
-	posX = posX - rect.left - 3;
-	posY = posY - rect.top - 86;
+	posX = (posX - rect.left) - 3;
+	posY = (posY - rect.top) - 86;
 	
 	posX = ~~(posX/6);
 	posY = ~~(posY/6);
@@ -40,6 +32,7 @@ function doClick(e) {
 	//y = ((posY - rect.top)\6);
 	
 	getGrid();
+	alert(posX + " " + posY)
 	grid[posX][posY] = (grid[posX][posY] === 1) ? 0 : 1;
 }
 
