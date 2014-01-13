@@ -17,19 +17,20 @@ function getMinNeighbours() {
 }
 
 function doClick(e) {
-	var posX = screenX;
-	var posY = screenY;
+	var posX = e.screenX;
+	var posY = e.screenY;
+	xOffset = (outerWidth-innerWidth);
+	yOffset = (outerHeight - innerHeight);
+	posX = posX - xOffset;
+	posY = posY - yOffset;
 	
-	var rect = document.getElementById("canvas").getBoundingClientRect();
+	//Canvas is at position 50, 300
+	posX = posX - 50;
+	posY = posY - 300;
 	
-	//Needed tweaking, no other way I could get it to work
-	posX = (posX - rect.left) - 3;
-	posY = (posY - rect.top) - 170;
 	
 	posX = ~~(posX/6);
 	posY = ~~(posY/6);
-	//x = ((posX - rect.left)\6);
-	//y = ((posY - rect.top)\6);
 	
 	getGrid();
 	grid[posX][posY] = (grid[posX][posY] === 1) ? 0 : 1;
