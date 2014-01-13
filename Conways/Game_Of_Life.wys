@@ -1,0 +1,61 @@
+native int getX()
+native int getY()
+
+native [[int]] getGrid()
+native void setGrid([[int]] grid)
+
+native int getMinNeighbours()
+native int getMaxNeighbours()
+
+[[int]] gameOfLife(int gridX , int gridY, int min, int max):
+        [[int]] grid = getGrid()
+        [[int]] newgrid = generate_grid(gridX,gridY)
+        for x in 0..gridX :
+                        for y in 0..gridY:
+                                int count = 0
+                                if (x-1>=0):
+                                        if (grid[y][x-1]==1):
+                                                        count = count + 1
+                                        if (y+1 < gridY):
+                                                if (grid[y+1][x-1] == 1):
+                                                        count = count + 1
+                                        if (y-1>=0):
+                                                if (grid[y-1][x-1] == 1):
+                                                        count = count + 1
+                                if (y-1 >= 0):
+                                        if (grid[y-1][x] == 1):
+                                                count = count + 1
+                                if (y+1<gridY):
+                                        if (grid[y+1][x] == 1):
+                                                count = count + 1
+                                if (x+1<gridX):
+                                        if (grid[y][x+1]==1):
+                                                        count = count + 1
+                                        if (y+1 < gridY):
+                                                if (grid[y+1][x+1]==1):
+                                                        count = count + 1
+                                        if (y-1>=0):
+                                                if (grid[y-1][x+1]==1):
+                                                        count = count + 1
+                                if (count < min):
+                                        newgrid[y][x] = 0
+                                else:
+                                        if ( (count>max)):
+                                                newgrid[y][x] = 0
+                                        else:
+                                                if ((count == max)):
+                                                        newgrid[y][x] = 1
+                                                if (count <= max && count >= min && grid[y][x] == 1):
+                                                        newgrid[y][x] = 1
+
+        setGrid(newgrid)
+
+[[int]] generate_grid(int x , int y):
+        if (y <= 0):
+                return []
+        int i = 0
+        [int] row = []
+        while (i < x):
+                row = row ++ [0]
+                i = i + 1
+        return [row] ++ generate_grid(x,y-1)
