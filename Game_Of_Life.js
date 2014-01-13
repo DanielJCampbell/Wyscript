@@ -1,4 +1,5 @@
-function gameOfLife(grid, gridX, gridY, min, max) {
+function gameOfLife(gridX, gridY, min, max) {
+    var grid = getGrid().clone();
     var newgrid = generate_grid(gridX,gridY).clone();
     if ($_.funcs.x === undefined) {
         $_.funcs.x = {};
@@ -85,8 +86,7 @@ function gameOfLife(grid, gridX, gridY, min, max) {
     $_.funcs.x.depth--;
     if ($_.funcs.x.depth < 0)
         delete $_.funcs.x;
-    draw(newgrid.clone());
-    return newgrid;
+    setGrid(newgrid.clone());
 }
 function generate_grid(x, y) {
     if(($_.lt(y, new $_.Integer(0),  true))) {
@@ -99,4 +99,31 @@ function generate_grid(x, y) {
         i = (i.add(new $_.Integer(1)));
     }
     return new $_.List([row], new $_.Type.List(new $_.Type.List(new $_.Type.Int()))).append(generate_grid(x,(y.sub(new $_.Integer(1)))));
+}
+function randomize() {
+    var gridX = getX();
+    var gridY = getY();
+    var num = ((gridX.mul(gridY)).div(new $_.Integer(3)));
+    var list = generate_grid(gridX,gridY).clone();
+    if ($_.funcs.i === undefined) {
+        $_.funcs.i = {};
+        $_.funcs.i.depth = 0;
+    }
+    else $_.funcs.i.depth++;
+    $_.defProperty($_.funcs.i, 'tmp' + $_.funcs.i.depth, {});
+    $_.funcs.i['tmp' + $_.funcs.i.depth].list = ($_.range(new $_.Integer(0), num));
+    $_.funcs.i['tmp' + $_.funcs.i.depth].count = 0;
+    for($_.funcs.i['tmp' + $_.funcs.i.depth].count = 0; $_.funcs.i['tmp' + $_.funcs.i.depth].count < $_.funcs.i['tmp' + $_.funcs.i.depth].list.length; $_.funcs.i['tmp' + $_.funcs.i.depth].count++) {
+        var i = $_.funcs.i['tmp' + $_.funcs.i.depth].list[$_.funcs.i['tmp' + $_.funcs.i.depth].count];
+        var tmpX = rand(gridX);
+        var tmpY = rand(gridY);
+        var j = list.getValue(tmpY).getValue(tmpX);
+        if(($_.equals(j, new $_.Integer(0), true))) {
+            list.getValue(tmpY).setValue(tmpX, new $_.Integer(1));
+        }
+    }
+    $_.funcs.i.depth--;
+    if ($_.funcs.i.depth < 0)
+        delete $_.funcs.i;
+    setGrid(list.clone());
 }
