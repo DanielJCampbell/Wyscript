@@ -32,7 +32,6 @@ function doClick(e) {
 	//y = ((posY - rect.top)\6);
 	
 	getGrid();
-	alert(posX + " " + posY)
 	grid[posX][posY] = (grid[posX][posY] === 1) ? 0 : 1;
 }
 
