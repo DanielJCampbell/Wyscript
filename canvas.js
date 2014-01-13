@@ -32,7 +32,7 @@ function doClick(e) {
 	
 	getGrid();
 	alert(posX + " " + posY);
-	grid[posX][posY] = (grid[posX][posY] === 1) ? 0 : 1;
+	grid[posY][posX] = (grid[posY][posX] === 1) ? 0 : 1;
 }
 
 function getMaxNeighbours() {
