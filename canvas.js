@@ -17,8 +17,17 @@ function getMinNeighbours() {
 }
 
 function doClick(e) {
-	var posX = e.screenX;
-	var posY = e.screenY;
+	var posX = 0;
+	var posY = 0;
+	if (e.pageX || e.pageY) {
+		posX = e.pageX;
+		posY = e.pageY;
+	}
+	else if (e.clientX || e.clientY) {
+		posX = e.clientX;
+		posY = e.clientY;
+	}
+	
 	var rect = document.getElementById("canvas").getBoundingClientRect();
 	
 	//Needed tweaking, no other way I could get it to work
