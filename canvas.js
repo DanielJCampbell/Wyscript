@@ -24,7 +24,7 @@ function doClick(e) {
 	
 	//Needed tweaking, no other way I could get it to work
 	posX = (posX - rect.left) - 3;
-	posY = (posY - rect.top) - 86;
+	posY = (posY - rect.top) - 170;
 	
 	posX = ~~(posX/6);
 	posY = ~~(posY/6);
