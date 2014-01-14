@@ -1,8 +1,8 @@
-type Block is {int type, int rotation, int x, int y} //Note x and y always track the leftmost and topmost piece of the block
+type Block is {int kind, int rotation, int x, int y} //Note x and y always track the leftmost and topmost piece of the block
 
 type Board is [[bool]]
 
-type Game is {Block current, Block next, Board board}
+type Game is {Block current, Block nextBlock, Board board}
 
 native void setGame(Game g)
 native Game getGame()
@@ -10,16 +10,16 @@ native int rand()
 native void gameOver()
 
 void init():
-    Game g = {current:makeBlock(), next:makeBlock(), board:makeBoard()}
+    Game g = {current:makeBlock(), nextBlock:makeBlock(), board:makeBoard()}
     setGame(g)
 
 Block makeBlock():
     int rotation = 0
     int x = 4
     int y = 0
-    int type = rand()
+    int kind = rand()
     
-    switch (type):
+    switch (kind):
         case 0:
             y = 1
         case 1:
@@ -36,7 +36,7 @@ Block makeBlock():
             y = 1
         case 6:
             y = 1
-    return {type:type, rotation:rotation, x:x, y:y}
+    return {kind:kind, rotation:rotation, x:x, y:y}
 
 Board makeBoard():
     Board board = []
@@ -46,27 +46,27 @@ Board makeBoard():
         col = []
         for j in 0..20:
             col = col ++ [false]
-        board = board ++ col
+        board = board ++ [col]
     return board
 
 //Called every 'tick' of gameplay, or when the player holds down space - moves the block down one and handles any collisions that occur
 void update():
-    Game g = getGame();
+    Game g = getGame()
     Board board = g.board
     Block block = g.current
     
     block.y = block.y+1
     if hasCollided(board, block, true):
         g = getGame() //Need to refresh game, as board state may have changed
-        g.current = g.next
-        g.next = makeBlock()
+        g.current = g.nextBlock
+        g.nextBlock = makeBlock()
         if hasCollided(g.board, g.current, false):  //there is no room for the new block, so gameover
             gameOver()
             return
     else:
         g.current = block
     setGame(g)
-    
+
 void moveLeft():
     Game g = getGame()
     Block b = g.current
@@ -95,7 +95,7 @@ void rotateLeft():
     if b.rotation < 0:
         b.rotation = 360 + b.rotation
     b = changePos(b, oldPieces, calculatePieces(b))
-    if (hasCollided(g.board, b, false):
+    if (hasCollided(g.board, b, false)):
         b.x = oldX
         b.y = oldY
         b.rotation = b.rotation + 90
@@ -114,7 +114,7 @@ void rotateRight():
     if b.rotation >= 360:
         b.rotation = b.rotation - 360
     b = changePos(b, oldPieces, calculatePieces(b))
-    if (hasCollided(g.board, b, false):
+    if (hasCollided(g.board, b, false)):
         b.x = oldX
         b.y = oldY
         b.rotation = b.rotation - 90
@@ -126,7 +126,7 @@ void rotateRight():
 //Calculates the piece matrix for a given block - this is a 4x4 list of booleans, where true indicates that cell is occupied
 [[bool]] calculatePieces(Block b):
     [[bool]] pieces = []
-    switch (b.type):
+    switch (b.kind):
         case 0:
             pieces = pieces ++ [[true, true, false, false]]
             pieces = pieces ++ [[true, true, false, false]]
@@ -251,7 +251,7 @@ Block changePos(Block b, [[bool]] old, [[bool]] new):
             if new[i][j]:
                 if i < newX:
                     newX = i
-                if j < newY
+                if j < newY:
                     newY = j
     int xDiff = newX - oldX
     int yDiff = newY - oldY
@@ -275,7 +275,7 @@ bool hasCollided(Board board, Block block, bool isUpdate):
     block.y = block.y - 1
     for i in block.x..(block.x+4):
         for j in block.y..(block.y+4):
-            if pieces[i-block.x][y-block.y]:
+            if pieces[i-block.x][j-block.y]:
                 board[i][j] = true
     board = clearLines(board)
     Game g = getGame()
