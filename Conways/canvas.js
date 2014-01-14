@@ -17,17 +17,12 @@ function getMinNeighbours() {
 }
 
 function doClick(e) {
-	var posX = e.screenX;
-	var posY = e.screenY;
-	xOffset = (outerWidth-innerWidth) + screenX;
-	yOffset = (outerHeight - innerHeight) + screenY;
-	posX = posX - xOffset;
-	posY = posY - yOffset;
+	var posX = e.clientX;
+	var posY = e.clientY;
 	
 	//Canvas is at position 50, 300
 	posX = posX - 50;
 	posY = posY - 300;
-	
 	
 	posX = ~~(posX/6);
 	posY = ~~(posY/6);
