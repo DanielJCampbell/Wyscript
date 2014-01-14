@@ -19,8 +19,8 @@ function getMinNeighbours() {
 function doClick(e) {
 	var posX = e.screenX;
 	var posY = e.screenY;
-	xOffset = (outerWidth-innerWidth);
-	yOffset = (outerHeight - innerHeight);
+	xOffset = (outerWidth-innerWidth) + screenX;
+	yOffset = (outerHeight - innerHeight) + screenY;
 	posX = posX - xOffset;
 	posY = posY - yOffset;
 	
@@ -41,10 +41,15 @@ function getMaxNeighbours() {
 }
 
 function getGrid() {
-	if (grid[0] === undefined)
-		setGrid(generate_grid(getX(), getY()));
-  var i;
-  var j;
+  var i, j;
+  for (i = 0; i < getY().num; i++) {
+		for (j = 0; j < getX().num; j++) {
+			if (grid[i] === undefined)
+				grid[i] = [];
+			if (grid[i][j] === undefined)
+			   grid[i][j] = 0;
+		}
+  }
   var list;
   var row;
   var result = new $_.List([], new $_.Type.List(new $_.Type.List(new $_.Type.Int())));
@@ -86,9 +91,13 @@ function start() {
 	animateWrapper();
 }
 
+function stopAnimation() {
+	$_.isRunning = false
+}
+
 function animateWrapper() {
 	var iter = getIterations().num;
-	if ($_.iter >= iter) {
+	if ($_.iter >= iter || !$_.isRunning) {
 		$_.iter = 0;
 		$_.isRunning = false;
 		return;
