@@ -7,7 +7,7 @@ function makeBlock() {
     var x = new Wyscript.Integer(4);
     var y = new Wyscript.Integer(0);
     var kind = rand();
-    if(Wyscript.equals(kind, new Wyscript.Integer(2)) || Wyscript.equals(kind, new Wyscript.Integer(4))) {
+    if (Wyscript.equals(kind, new Wyscript.Integer(2)) || Wyscript.equals(kind, new Wyscript.Integer(4))) {
         x = new Wyscript.Integer(3);
     }
     return new Wyscript.Record(['kind','rotation','x','y'], [kind,rotation,x,y], new Wyscript.Type.Record(['kind', 'rotation', 'x', 'y'], [new Wyscript.Type.Int(), new Wyscript.Type.Int(), new Wyscript.Type.Int(), new Wyscript.Type.Int()]));
@@ -69,7 +69,7 @@ function moveLeft() {
     var g = getGame();
     var b = g.getValue('current');
     b.setValue('x', (b.getValue('x').sub(new Wyscript.Integer(1))));
-    if((hasCollided(g.getValue('board'),b,false) || (Wyscript.lt(b.getValue('x'), new Wyscript.Integer(0),  false)))) {
+    if(((Wyscript.lt(b.getValue('x'), new Wyscript.Integer(0),  false)) || hasCollided(g.getValue('board'),b,false))) {
         b.setValue('x', (b.getValue('x').add(new Wyscript.Integer(1))));
     }
     g.setValue('current', b);
@@ -79,7 +79,7 @@ function moveRight() {
     var g = getGame();
     var b = g.getValue('current');
     b.setValue('x', (b.getValue('x').add(new Wyscript.Integer(1))));
-    if((hasCollided(g.getValue('board'),b,false) || (Wyscript.gt(b.getValue('x'), new Wyscript.Integer(9),  false)))) {
+    if(((Wyscript.gt(b.getValue('x'), new Wyscript.Integer(9),  false)) || hasCollided(g.getValue('board'),b,false))) {
         b.setValue('x', (b.getValue('x').sub(new Wyscript.Integer(1))));
     }
     g.setValue('current', b);
@@ -96,7 +96,7 @@ function rotateLeft() {
         b.setValue('rotation', (new Wyscript.Integer(360).add(b.getValue('rotation'))));
     }
     b = changePos(b,oldPieces.clone(),calculatePieces(b).clone());
-    if(hasCollided(g.getValue('board'),b,false)) {
+    if((((Wyscript.lt(b.getValue('x'), new Wyscript.Integer(0),  false)) || (Wyscript.gt(b.getValue('x'), new Wyscript.Integer(9),  false))) || hasCollided(g.getValue('board'),b,false))) {
         b.setValue('x', oldX);
         b.setValue('y', oldY);
         b.setValue('rotation', (b.getValue('rotation').add(new Wyscript.Integer(90))));
@@ -118,7 +118,7 @@ function rotateRight() {
         b.setValue('rotation', (b.getValue('rotation').sub(new Wyscript.Integer(360))));
     }
     b = changePos(b,oldPieces.clone(),calculatePieces(b).clone());
-    if(hasCollided(g.getValue('board'),b,false)) {
+    if((((Wyscript.lt(b.getValue('x'), new Wyscript.Integer(0),  false)) || (Wyscript.gt(b.getValue('x'), new Wyscript.Integer(9),  false))) || hasCollided(g.getValue('board'),b,false))) {
         b.setValue('x', oldX);
         b.setValue('y', oldY);
         b.setValue('rotation', (b.getValue('rotation').sub(new Wyscript.Integer(90))));
@@ -386,7 +386,7 @@ function changePos(b, old, newBlock) {
 }
 function hasCollided(board, block, isUpdate) {
     var pieces = calculatePieces(block).clone();
-    var valid = true;
+    var collided = false;
     if (Wyscript.funcs.i === undefined) {
         Wyscript.funcs.i = {};
         Wyscript.funcs.i.depth = 0;
@@ -407,11 +407,11 @@ function hasCollided(board, block, isUpdate) {
         Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count = 0;
         for(Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count = 0; Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count < Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].list.length; Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count++) {
             var j = Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].list[Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count];
-            if((board.getValue(i).getValue(j) && pieces.getValue((i.sub(block.getValue('x')))).getValue((j.sub(block.getValue('y')))))) {
+            if(((Wyscript.gt(block.getValue('y'), new Wyscript.Integer(19),  false)) || (board.getValue(i).getValue(j) && pieces.getValue((i.sub(block.getValue('x')))).getValue((j.sub(block.getValue('y'))))))) {
                 if((!isUpdate)) {
                     return true;
                 }
-                valid = false;
+                collided = true;
             }
         }
         Wyscript.funcs.j.depth--;
@@ -421,7 +421,7 @@ function hasCollided(board, block, isUpdate) {
     Wyscript.funcs.i.depth--;
     if (Wyscript.funcs.i.depth < 0)
         delete Wyscript.funcs.i;
-    if(valid) {
+    if((!collided)) {
         return false;
     }
     block.setValue('y', (block.getValue('y').sub(new Wyscript.Integer(1))));

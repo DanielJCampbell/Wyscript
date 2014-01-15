@@ -41,14 +41,16 @@ void update():
     Block block = g.current
     
     block.y = block.y+1
+    bool valid = true
     if hasCollided(board, block, true):
+        valid = false
         g = getGame() //Need to refresh game, as board state may have changed
         g.current = g.nextBlock
         g.nextBlock = makeBlock()
         if hasCollided(g.board, g.current, false):  //there is no room for the new block, so gameover
             gameOver()
             return
-    else:
+    if (valid):
         g.current = block
     setGame(g)
 
@@ -119,26 +121,26 @@ void rotateRight():
             pieces = pieces ++ [[false, false, false, false]]
         case 1:
             if(b.rotation == 0 || b.rotation == 180):
-                pieces = pieces ++ [[false, false, false, false]]
                 pieces = pieces ++ [[true, true, true, true]]
                 pieces = pieces ++ [[false, false, false, false]]
                 pieces = pieces ++ [[false, false, false, false]]
+                pieces = pieces ++ [[false, false, false, false]]
             else:
-                pieces = pieces ++ [[false, true, false, false]]
-                pieces = pieces ++ [[false, true, false, false]]
-                pieces = pieces ++ [[false, true, false, false]]
-                pieces = pieces ++ [[false, true, false, false]]
+                pieces = pieces ++ [[true, false, false, false]]
+                pieces = pieces ++ [[true, false, false, false]]
+                pieces = pieces ++ [[true, false, false, false]]
+                pieces = pieces ++ [[true, false, false, false]]
         case 2:
             switch (b.rotation):
                 case 0:
-                    pieces = pieces ++ [[false, false, false, false]]
                     pieces = pieces ++ [[false, false, true, false]]
                     pieces = pieces ++ [[true, true, true, false]]
                     pieces = pieces ++ [[false, false, false, false]]
+                    pieces = pieces ++ [[false, false, false, false]]
                 case 90:
-                    pieces = pieces ++ [[false, true, true, false]]
-                    pieces = pieces ++ [[false, false, true, false]]
-                    pieces = pieces ++ [[false, false, true, false]]
+                    pieces = pieces ++ [[true, true, false, false]]
+                    pieces = pieces ++ [[false, true, false, false]]
+                    pieces = pieces ++ [[false, true, false, false]]
                     pieces = pieces ++ [[false, false, false, false]]
                 case 180:
                     pieces = pieces ++ [[true, true, true, false]]
@@ -163,14 +165,14 @@ void rotateRight():
                     pieces = pieces ++ [[true, false, false, false]]
                     pieces = pieces ++ [[false, false, false, false]]
                 case 180:
-                    pieces = pieces ++ [[false, false, false, false]]
                     pieces = pieces ++ [[true, false, false, false]]
                     pieces = pieces ++ [[true, true, true, false]]
                     pieces = pieces ++ [[false, false, false, false]]
+                    pieces = pieces ++ [[false, false, false, false]]
                 case 270:
-                    pieces = pieces ++ [[false, false, true, false]]
-                    pieces = pieces ++ [[false, false, true, false]]
-                    pieces = pieces ++ [[false, true, true, false]]
+                    pieces = pieces ++ [[false, true, false, false]]
+                    pieces = pieces ++ [[false, true, false, false]]
+                    pieces = pieces ++ [[true, true, false, false]]
                     pieces = pieces ++ [[false, false, false, false]]
         case 4:
             switch (b.rotation):
@@ -180,14 +182,14 @@ void rotateRight():
                     pieces = pieces ++ [[true, false, false, false]]
                     pieces = pieces ++ [[false, false, false, false]]
                 case 90:
-                    pieces = pieces ++ [[false, false, false, false]]
                     pieces = pieces ++ [[false, true, false, false]]
                     pieces = pieces ++ [[true, true, true, false]]
                     pieces = pieces ++ [[false, false, false, false]]
+                    pieces = pieces ++ [[false, false, false, false]]
                 case 180:
-                    pieces = pieces ++ [[false, false, true, false]]
-                    pieces = pieces ++ [[false, true, true, false]]
-                    pieces = pieces ++ [[false, false, true, false]]
+                    pieces = pieces ++ [[false, true, false, false]]
+                    pieces = pieces ++ [[true, true, false, false]]
+                    pieces = pieces ++ [[false, true, false, false]]
                     pieces = pieces ++ [[false, false, false, false]]
                 case 270:
                     pieces = pieces ++ [[true, true, true, false]]
@@ -251,10 +253,11 @@ bool hasCollided(Board board, Block block, bool isUpdate):
     bool valid = true
     for i in block.x..(block.x+4):
         for j in block.y..(block.y+4):
-            if (block.y > 19 || (board[i][j] && pieces[i-block.x][j-block.y])):
-                if !(isUpdate):
-                    return true
-                valid = false
+            if (pieces[i-block.x][j-block.y]):
+                if (i > 9 || j > 19 || board[i][j]):
+                    if !(isUpdate):
+                        return true
+                    valid = false
     if valid:
         return false
     block.y = block.y - 1
