@@ -70,7 +70,7 @@ function draw() {
 	
 	g.font = "bold 36px serif";
 	g.strokeStyle = "#00CC00";
-	g.fillStyle = "00CC00";
+	g.fillStyle = "#00CC00";
 	
 	if (state === "paused") {
 		g.strokeText("PRESS 'P' TO", 100, 200);
