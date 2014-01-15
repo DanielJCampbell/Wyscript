@@ -19,6 +19,8 @@ function addScore(i) {
 function gameOver() {
 	init();
 	score = 0;
+	nextScore = 0;
+	tickTime = 500;
 	state = "start";
 }
 
