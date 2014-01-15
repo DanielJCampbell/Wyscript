@@ -272,13 +272,27 @@ bool hasCollided(Board board, Block block, bool isUpdate):
     return true
 
 Board clearLines(Board board):
+    int lowestCleared = -1
+    int numCleared = 0
     bool line = true
-    for j in 0..20:
+    int j = 19
+    while (j > -1):
         line = true
         for i in 0..10:
             if !(board[i][j]):
                 line = false
         if line:
+            numCleared = numCleared+1
+            if (lowestCleared == -1):
+                lowestCleared = j
             for i in 0..10:
                 board[i][j] = false
+        j = j -1
+    if (lowestCleared != -1):
+        j = lowestCleared-numCleared
+        while j > -1:
+            for i in 0..10:
+                if (board[i][j]):
+                    board[i][j] = false
+                    board[i][j+numCleared] = true
     return board

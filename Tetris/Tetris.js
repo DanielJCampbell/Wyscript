@@ -7,7 +7,7 @@ function makeBlock() {
     var x = new Wyscript.Integer(4);
     var y = new Wyscript.Integer(0);
     var kind = rand();
-    if (Wyscript.equals(kind, new Wyscript.Integer(2)) || Wyscript.equals(kind, new Wyscript.Integer(4))) {
+    if(((Wyscript.equals(kind, new Wyscript.Integer(2), true)) || (Wyscript.equals(kind, new Wyscript.Integer(4), true)))) {
         x = new Wyscript.Integer(3);
     }
     return new Wyscript.Record(['kind','rotation','x','y'], [kind,rotation,x,y], new Wyscript.Type.Record(['kind', 'rotation', 'x', 'y'], [new Wyscript.Type.Int(), new Wyscript.Type.Int(), new Wyscript.Type.Int(), new Wyscript.Type.Int()]));
@@ -53,7 +53,9 @@ function update() {
     var board = g.getValue('board');
     var block = g.getValue('current');
     block.setValue('y', (block.getValue('y').add(new Wyscript.Integer(1))));
+    var valid = true;
     if(hasCollided(board,block,true)) {
+        valid = false;
         g = getGame();
         g.setValue('current', g.getValue('nextBlock'));
         g.setValue('nextBlock', makeBlock());
@@ -61,6 +63,8 @@ function update() {
             gameOver();
             return;
         }
+    }
+    if(valid) {
         g.setValue('current', block);
     }
     setGame(g);
@@ -143,16 +147,16 @@ function calculatePieces(b) {
 
         else if(Wyscript.equals(Wyscript.labels.var0, new Wyscript.Integer(1), true)) {
             if(((Wyscript.equals(b.getValue('rotation'), new Wyscript.Integer(0), true)) || (Wyscript.equals(b.getValue('rotation'), new Wyscript.Integer(180), true)))) {
-                pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                 pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,true,true,true], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                 pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                 pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
             }
             else {
-                pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
-                pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
-                pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
-                pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
             }
             break label0;
         }
@@ -161,17 +165,17 @@ function calculatePieces(b) {
             Wyscript.labels.var1 = b.getValue('rotation');
             label1: while(true) {
                 if(Wyscript.equals(Wyscript.labels.var1, new Wyscript.Integer(0), true)) {
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,true,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     break label1;
                 }
 
                 else if(Wyscript.equals(Wyscript.labels.var1, new Wyscript.Integer(90), true)) {
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     break label1;
                 }
@@ -221,17 +225,17 @@ function calculatePieces(b) {
                 }
 
                 else if(Wyscript.equals(Wyscript.labels.var1, new Wyscript.Integer(180), true)) {
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,true,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     break label1;
                 }
 
                 else if(Wyscript.equals(Wyscript.labels.var1, new Wyscript.Integer(270), true)) {
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     break label1;
                 }
@@ -257,17 +261,17 @@ function calculatePieces(b) {
                 }
 
                 else if(Wyscript.equals(Wyscript.labels.var1, new Wyscript.Integer(90), true)) {
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,true,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     break label1;
                 }
 
                 else if(Wyscript.equals(Wyscript.labels.var1, new Wyscript.Integer(180), true)) {
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
-                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,true,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([true,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
+                    pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,true,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     pieces = pieces.append(new Wyscript.List([new Wyscript.List([false,false,false,false], new Wyscript.Type.List(new Wyscript.Type.Bool()))], new Wyscript.Type.List(new Wyscript.Type.List(new Wyscript.Type.Bool())))).clone();
                     break label1;
                 }
@@ -386,7 +390,7 @@ function changePos(b, old, newBlock) {
 }
 function hasCollided(board, block, isUpdate) {
     var pieces = calculatePieces(block).clone();
-    var collided = false;
+    var valid = true;
     if (Wyscript.funcs.i === undefined) {
         Wyscript.funcs.i = {};
         Wyscript.funcs.i.depth = 0;
@@ -407,11 +411,13 @@ function hasCollided(board, block, isUpdate) {
         Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count = 0;
         for(Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count = 0; Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count < Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].list.length; Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count++) {
             var j = Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].list[Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count];
-            if(((Wyscript.gt(block.getValue('y'), new Wyscript.Integer(19),  false)) || (board.getValue(i).getValue(j) && pieces.getValue((i.sub(block.getValue('x')))).getValue((j.sub(block.getValue('y'))))))) {
-                if((!isUpdate)) {
-                    return true;
+            if(pieces.getValue((i.sub(block.getValue('x')))).getValue((j.sub(block.getValue('y'))))) {
+                if((((Wyscript.gt(i, new Wyscript.Integer(9),  false)) || (Wyscript.gt(j, new Wyscript.Integer(19),  false))) || board.getValue(i).getValue(j))) {
+                    if((!isUpdate)) {
+                        return true;
+                    }
+                    valid = false;
                 }
-                collided = true;
             }
         }
         Wyscript.funcs.j.depth--;
@@ -421,7 +427,7 @@ function hasCollided(board, block, isUpdate) {
     Wyscript.funcs.i.depth--;
     if (Wyscript.funcs.i.depth < 0)
         delete Wyscript.funcs.i;
-    if((!collided)) {
+    if(valid) {
         return false;
     }
     block.setValue('y', (block.getValue('y').sub(new Wyscript.Integer(1))));
@@ -463,17 +469,11 @@ function hasCollided(board, block, isUpdate) {
     return true;
 }
 function clearLines(board) {
+    var lowestCleared = new Wyscript.Integer(-1);
+    var numCleared = new Wyscript.Integer(0);
     var line = true;
-    if (Wyscript.funcs.j === undefined) {
-        Wyscript.funcs.j = {};
-        Wyscript.funcs.j.depth = 0;
-    }
-    else Wyscript.funcs.j.depth++;
-    Wyscript.defProperty(Wyscript.funcs.j, 'tmp' + Wyscript.funcs.j.depth, {});
-    Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].list = (Wyscript.range(new Wyscript.Integer(0), new Wyscript.Integer(20)));
-    Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count = 0;
-    for(Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count = 0; Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count < Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].list.length; Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count++) {
-        var j = Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].list[Wyscript.funcs.j['tmp' + Wyscript.funcs.j.depth].count];
+    var j = new Wyscript.Integer(19);
+    while (Wyscript.gt(j, new Wyscript.Integer(-1), false)) {
         line = true;
         if (Wyscript.funcs.i === undefined) {
             Wyscript.funcs.i = {};
@@ -493,6 +493,10 @@ function clearLines(board) {
         if (Wyscript.funcs.i.depth < 0)
             delete Wyscript.funcs.i;
         if(line) {
+	    numCleared = numCleared.add(new Wyscript.Integer(1));
+	    if (Wyscript.equals(lowestCleared, new Wyscript.Integer(-1), true)) {
+	        lowestCleared = j;
+	    }
             if (Wyscript.funcs.i === undefined) {
                 Wyscript.funcs.i = {};
                 Wyscript.funcs.i.depth = 0;
@@ -509,9 +513,27 @@ function clearLines(board) {
             if (Wyscript.funcs.i.depth < 0)
                 delete Wyscript.funcs.i;
         }
+        j = j.sub(new Wyscript.Integer(1));
     }
-    Wyscript.funcs.j.depth--;
-    if (Wyscript.funcs.j.depth < 0)
-        delete Wyscript.funcs.j;
+    if (Wyscript.equals(lowestCleared, new Wyscript.Integer(-1), false)) {
+        j = lowestCleared;
+	if (Wyscript.funcs.i === undefined) {
+            Wyscript.funcs.i = {};
+            Wyscript.funcs.i.depth = 0;
+        }
+        else Wyscript.funcs.i.depth++;
+        Wyscript.defProperty(Wyscript.funcs.i, 'tmp' + Wyscript.funcs.i.depth, {});
+        Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list = (Wyscript.range(new Wyscript.Integer(0), new Wyscript.Integer(10)));
+        Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count = 0;
+        for(Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count = 0; Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count < Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list.length; Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count++) {
+	    if (board.getValue(i).getValue(j.sub(numCleared))) {
+	        board.getValue(i).setValue(j, true);
+		board.getValue(i).setValue(j.sub(numCleared), false);
+	    }
+	}
+	Wyscript.funcs.i.depth--;
+        if (Wyscript.funcs.i.depth < 0)
+            delete Wyscript.funcs.i;
+    }
     return board;
 }
