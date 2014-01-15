@@ -473,7 +473,7 @@ function clearLines(board) {
     var numCleared = new Wyscript.Integer(0);
     var line = true;
     var j = new Wyscript.Integer(19);
-    while (Wyscript.gt(j, new Wyscript.Integer(-1), false)) {
+    while((Wyscript.gt(j, new Wyscript.Integer(-1),  false))) {
         line = true;
         if (Wyscript.funcs.i === undefined) {
             Wyscript.funcs.i = {};
@@ -493,10 +493,10 @@ function clearLines(board) {
         if (Wyscript.funcs.i.depth < 0)
             delete Wyscript.funcs.i;
         if(line) {
-	    numCleared = numCleared.add(new Wyscript.Integer(1));
-	    if (Wyscript.equals(lowestCleared, new Wyscript.Integer(-1), true)) {
-	        lowestCleared = j;
-	    }
+            numCleared = (numCleared.add(new Wyscript.Integer(1)));
+            if((Wyscript.equals(lowestCleared, new Wyscript.Integer(-1), true))) {
+                lowestCleared = j;
+            }
             if (Wyscript.funcs.i === undefined) {
                 Wyscript.funcs.i = {};
                 Wyscript.funcs.i.depth = 0;
@@ -513,27 +513,31 @@ function clearLines(board) {
             if (Wyscript.funcs.i.depth < 0)
                 delete Wyscript.funcs.i;
         }
-        j = j.sub(new Wyscript.Integer(1));
+        j = (j.sub(new Wyscript.Integer(1)));
     }
-    if (Wyscript.equals(lowestCleared, new Wyscript.Integer(-1), false)) {
-        j = lowestCleared;
-	if (Wyscript.funcs.i === undefined) {
-            Wyscript.funcs.i = {};
-            Wyscript.funcs.i.depth = 0;
+    if((Wyscript.equals(lowestCleared, new Wyscript.Integer(-1), false))) {
+        j = (lowestCleared.sub(numCleared));
+        while((Wyscript.gt(j, new Wyscript.Integer(-1),  false))) {
+            if (Wyscript.funcs.i === undefined) {
+                Wyscript.funcs.i = {};
+                Wyscript.funcs.i.depth = 0;
+            }
+            else Wyscript.funcs.i.depth++;
+            Wyscript.defProperty(Wyscript.funcs.i, 'tmp' + Wyscript.funcs.i.depth, {});
+            Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list = (Wyscript.range(new Wyscript.Integer(0), new Wyscript.Integer(10)));
+            Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count = 0;
+            for(Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count = 0; Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count < Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list.length; Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count++) {
+                var i = Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list[Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count];
+                if(board.getValue(i).getValue(j)) {
+                    board.getValue(i).setValue(j, false);
+                    board.getValue(i).setValue((j.add(numCleared)), true);
+                }
+            }
+            Wyscript.funcs.i.depth--;
+            if (Wyscript.funcs.i.depth < 0)
+                delete Wyscript.funcs.i;
+            j = (j.sub(new Wyscript.Integer(1)));
         }
-        else Wyscript.funcs.i.depth++;
-        Wyscript.defProperty(Wyscript.funcs.i, 'tmp' + Wyscript.funcs.i.depth, {});
-        Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list = (Wyscript.range(new Wyscript.Integer(0), new Wyscript.Integer(10)));
-        Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count = 0;
-        for(Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count = 0; Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count < Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list.length; Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count++) {
-	    if (board.getValue(i).getValue(j.sub(numCleared))) {
-	        board.getValue(i).setValue(j, true);
-		board.getValue(i).setValue(j.sub(numCleared), false);
-	    }
-	}
-	Wyscript.funcs.i.depth--;
-        if (Wyscript.funcs.i.depth < 0)
-            delete Wyscript.funcs.i;
     }
     return board;
 }

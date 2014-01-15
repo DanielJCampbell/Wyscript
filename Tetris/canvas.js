@@ -1,4 +1,6 @@
 var game = {};
+var state = "start";
+
 var running = true;
 
 function getGame() {
@@ -11,16 +13,21 @@ function setGame(g) {
 
 function gameOver() {
 	init();
-	running = false;
+	state = "start";
 }
 
 function handleInput(e) {
-	if (e.keyCode === 80) {
-		running = !running;
+	if (e.keyCode === 80 && state === "paused") {
+		state = "running";
 		doTick();
 		return;
 	}
-	else if (!running) {
+	if (e.keyCode === 13 && state === "start") {
+		state = "running";
+		doTick();
+		return;
+	}
+	else if (state !== "running") {
 		return;
 	}
 			
@@ -46,7 +53,7 @@ function rand() {
 }
 
 function doTick() {
-	if (!running)
+	if (state !== "running")
 		return;
 	update();
 	setTimeout(function() { doTick();}, 500);
@@ -65,9 +72,14 @@ function draw() {
 	g.strokeStyle = "#00CC00";
 	g.fillStyle = "00CC00";
 	
-	if (!running) {
+	if (state === "paused") {
 		g.strokeText("PRESS 'P' TO", 100, 200);
 		g.strokeText("CONTINUE/RESTART", 100, 240);
+		return;
+	}
+	if (state === "start") {
+		g.strokeText("PRESS 'ENTER' TO", 100, 200);
+		g.strokeText("BEGIN THE GAME", 100, 240);
 		return;
 	}
 	g.strokeText("WYTRIS", 225, 100);

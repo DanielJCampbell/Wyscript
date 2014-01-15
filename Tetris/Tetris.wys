@@ -19,7 +19,7 @@ Block makeBlock():
     int y = 0
     int kind = rand()
     
-    if (kind === 2 || kind === 4):
+    if (kind == 2 || kind == 4):
             x = 3
     return {kind:kind, rotation:rotation, x:x, y:y}
 
@@ -295,4 +295,5 @@ Board clearLines(Board board):
                 if (board[i][j]):
                     board[i][j] = false
                     board[i][j+numCleared] = true
+            j = j-1
     return board
