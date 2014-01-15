@@ -8,7 +8,7 @@ native void setGame(Game g)
 native Game getGame()
 native int rand()
 native void gameOver()
-native void addScore()
+native void addScore(int score)
 
 void init():
     Game g = {current:makeBlock(), nextBlock:makeBlock(), board:makeBoard()}
@@ -311,8 +311,8 @@ Board clearLines(Board board):
                     board[i][j] = false
                     board[i][j+numCleared] = true
             j = j-1
-        int num = 0;
-        for i in 0.. numCleared:
-            num = num + 100*i
+        int num = 0
+        for i in 0..numCleared:
+            num = num + 100*(i+1)
         addScore(num)
     return board

@@ -100,6 +100,16 @@ function rotateLeft() {
         b.setValue('rotation', (new Wyscript.Integer(360).add(b.getValue('rotation'))));
     }
     b = changePos(b,oldPieces.clone(),calculatePieces(b).clone());
+    if((Wyscript.equals(b.getValue('kind'), new Wyscript.Integer(1), true))) {
+        if(((Wyscript.equals(b.getValue('rotation'), new Wyscript.Integer(0), true)) || (Wyscript.equals(b.getValue('rotation'), new Wyscript.Integer(180), true)))) {
+            b.setValue('x', (b.getValue('x').add(new Wyscript.Integer(1))));
+            b.setValue('y', (b.getValue('y').sub(new Wyscript.Integer(2))));
+        }
+        else {
+            b.setValue('x', (b.getValue('x').sub(new Wyscript.Integer(1))));
+            b.setValue('y', (b.getValue('y').add(new Wyscript.Integer(2))));
+        }
+    }
     if((((Wyscript.lt(b.getValue('x'), new Wyscript.Integer(0),  false)) || (Wyscript.gt(b.getValue('x'), new Wyscript.Integer(9),  false))) || hasCollided(g.getValue('board'),b,false))) {
         b.setValue('x', oldX);
         b.setValue('y', oldY);
@@ -122,6 +132,16 @@ function rotateRight() {
         b.setValue('rotation', (b.getValue('rotation').sub(new Wyscript.Integer(360))));
     }
     b = changePos(b,oldPieces.clone(),calculatePieces(b).clone());
+    if((Wyscript.equals(b.getValue('kind'), new Wyscript.Integer(1), true))) {
+        if(((Wyscript.equals(b.getValue('rotation'), new Wyscript.Integer(0), true)) || (Wyscript.equals(b.getValue('rotation'), new Wyscript.Integer(180), true)))) {
+            b.setValue('x', (b.getValue('x').sub(new Wyscript.Integer(1))));
+            b.setValue('y', (b.getValue('y').add(new Wyscript.Integer(2))));
+        }
+        else {
+            b.setValue('x', (b.getValue('x').add(new Wyscript.Integer(1))));
+            b.setValue('y', (b.getValue('y').sub(new Wyscript.Integer(2))));
+        }
+    }
     if((((Wyscript.lt(b.getValue('x'), new Wyscript.Integer(0),  false)) || (Wyscript.gt(b.getValue('x'), new Wyscript.Integer(9),  false))) || hasCollided(g.getValue('board'),b,false))) {
         b.setValue('x', oldX);
         b.setValue('y', oldY);
@@ -538,6 +558,23 @@ function clearLines(board) {
                 delete Wyscript.funcs.i;
             j = (j.sub(new Wyscript.Integer(1)));
         }
+        var num = new Wyscript.Integer(0);
+        if (Wyscript.funcs.i === undefined) {
+            Wyscript.funcs.i = {};
+            Wyscript.funcs.i.depth = 0;
+        }
+        else Wyscript.funcs.i.depth++;
+        Wyscript.defProperty(Wyscript.funcs.i, 'tmp' + Wyscript.funcs.i.depth, {});
+        Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list = (Wyscript.range(new Wyscript.Integer(0), numCleared));
+        Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count = 0;
+        for(Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count = 0; Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count < Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list.length; Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count++) {
+            var i = Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].list[Wyscript.funcs.i['tmp' + Wyscript.funcs.i.depth].count];
+            num = (num.add((new Wyscript.Integer(100).mul(i.add(new Wyscript.Integer(1))))));
+        }
+        Wyscript.funcs.i.depth--;
+        if (Wyscript.funcs.i.depth < 0)
+            delete Wyscript.funcs.i;
+        addScore(num);
     }
     return board;
 }

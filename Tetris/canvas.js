@@ -13,7 +13,7 @@ function setGame(g) {
 }
 
 function addScore(i) {
-	score = score + i;
+	score = score + i.num;
 }
 
 function gameOver() {
@@ -63,7 +63,7 @@ function doTick() {
 		return;
 	if (score > nextScore) {
 	    nextScore = nextScore + 1000;
-	    tickTime = ~~(tickTime * 0.9);
+	    tickTime = ~~(tickTime * 0.8);
 	 }
 	update();
 	setTimeout(function() { doTick();}, tickTime);
