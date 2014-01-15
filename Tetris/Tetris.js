@@ -7,51 +7,9 @@ function makeBlock() {
     var x = new Wyscript.Integer(4);
     var y = new Wyscript.Integer(0);
     var kind = rand();
-    Wyscript.labels.var0 = kind;
-    label0: while(true) {
-        if(Wyscript.equals(Wyscript.labels.var0, new Wyscript.Integer(0), true)) {
-            y = new Wyscript.Integer(1);
-            break label0;
-        }
-
-        else if(Wyscript.equals(Wyscript.labels.var0, new Wyscript.Integer(1), true)) {
-            y = new Wyscript.Integer(3);
-            break label0;
-        }
-
-        else if(Wyscript.equals(Wyscript.labels.var0, new Wyscript.Integer(2), true)) {
-            x = new Wyscript.Integer(3);
-            y = new Wyscript.Integer(2);
-            break label0;
-        }
-
-        else if(Wyscript.equals(Wyscript.labels.var0, new Wyscript.Integer(3), true)) {
-            y = new Wyscript.Integer(2);
-            break label0;
-        }
-
-        else if(Wyscript.equals(Wyscript.labels.var0, new Wyscript.Integer(4), true)) {
-            x = new Wyscript.Integer(3);
-            y = new Wyscript.Integer(1);
-            break label0;
-        }
-
-        else if(Wyscript.equals(Wyscript.labels.var0, new Wyscript.Integer(5), true)) {
-            y = new Wyscript.Integer(1);
-            break label0;
-        }
-
-        else if(Wyscript.equals(Wyscript.labels.var0, new Wyscript.Integer(6), true)) {
-            y = new Wyscript.Integer(1);
-            break label0;
-        }
-
-        else {
-            break label0;
-        }
-
+    if(Wyscript.equals(kind, new Wyscript.Integer(2)) || Wyscript.equals(kind, new Wyscript.Integer(4))) {
+        x = new Wyscript.Integer(3);
     }
-    delete Wyscript.labels.var0
     return new Wyscript.Record(['kind','rotation','x','y'], [kind,rotation,x,y], new Wyscript.Type.Record(['kind', 'rotation', 'x', 'y'], [new Wyscript.Type.Int(), new Wyscript.Type.Int(), new Wyscript.Type.Int(), new Wyscript.Type.Int()]));
 }
 function makeBoard() {
@@ -371,7 +329,7 @@ function calculatePieces(b) {
     delete Wyscript.labels.var0
     return pieces;
 }
-function changePos(b, old, new) {
+function changePos(b, old, newBlock) {
     var oldX = new Wyscript.Integer(4);
     var oldY = new Wyscript.Integer(4);
     var newX = new Wyscript.Integer(4);
@@ -404,7 +362,7 @@ function changePos(b, old, new) {
                     oldY = j;
                 }
             }
-            if(new.getValue(i).getValue(j)) {
+            if(newBlock.getValue(i).getValue(j)) {
                 if((Wyscript.lt(i, newX,  false))) {
                     newX = i;
                 }
@@ -464,7 +422,7 @@ function hasCollided(board, block, isUpdate) {
     if (Wyscript.funcs.i.depth < 0)
         delete Wyscript.funcs.i;
     if(valid) {
-        return true;
+        return false;
     }
     block.setValue('y', (block.getValue('y').sub(new Wyscript.Integer(1))));
     if (Wyscript.funcs.i === undefined) {
@@ -502,6 +460,7 @@ function hasCollided(board, block, isUpdate) {
     var g = getGame();
     g.setValue('board', board);
     setGame(g);
+    return true;
 }
 function clearLines(board) {
     var line = true;

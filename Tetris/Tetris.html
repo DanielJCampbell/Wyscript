@@ -4,16 +4,16 @@
     <script src = "Wyscript.js"></script>
     <script src = "Tetris.js"></script>
     <script src = "canvas.js"></script>
-    <script> setInterval(function() { draw(); }, 1000/30); </script>
+    <script> setInterval(function() { draw(); }, 1000/30);
+	     init();
+    </script>
     <title> WyTris </title>
   </head>
 
   <body>
 	<canvas id = "canvas" width = 600 height = 600
 		     style = "border:1px solid #000000; position:fixed; top:25px; left:25px;"/>
-    	<script> var canvas = document.getElementById("canvas");
-		 canvas.addEventListener('keydown', handleInput, false);
-	</script>
+    	<script> addEventListener('keydown', handleInput, true); </script>
     	
   </body>
 

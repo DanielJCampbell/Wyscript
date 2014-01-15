@@ -19,23 +19,8 @@ Block makeBlock():
     int y = 0
     int kind = rand()
     
-    switch (kind):
-        case 0:
-            y = 1
-        case 1:
-            y = 3
-        case 2:
+    if (kind === 2 || kind === 4):
             x = 3
-            y = 2
-        case 3:
-            y = 2
-        case 4:
-            x = 3
-            y = 1
-        case 5:
-            y = 1
-        case 6:
-            y = 1
     return {kind:kind, rotation:rotation, x:x, y:y}
 
 Board makeBoard():
@@ -71,7 +56,7 @@ void moveLeft():
     Game g = getGame()
     Block b = g.current
     b.x = b.x-1
-    if (hasCollided(g.board, b, false) || b.x < 0):
+    if (b.x < 0 || hasCollided(g.board, b, false)):
         b.x = b.x+1
     g.current = b
     setGame(g)
@@ -80,7 +65,7 @@ void moveRight():
     Game g = getGame()
     Block b = g.current
     b.x = b.x+1
-    if (hasCollided(g.board, b, false) || b.x > 9):
+    if (b.x > 9 || hasCollided(g.board, b, false)):
         b.x = b.x-1
     g.current = b
     setGame(g)
@@ -95,7 +80,7 @@ void rotateLeft():
     if b.rotation < 0:
         b.rotation = 360 + b.rotation
     b = changePos(b, oldPieces, calculatePieces(b))
-    if (hasCollided(g.board, b, false)):
+    if (b.x < 0 || b.x > 9 || hasCollided(g.board, b, false)):
         b.x = oldX
         b.y = oldY
         b.rotation = b.rotation + 90
@@ -114,7 +99,7 @@ void rotateRight():
     if b.rotation >= 360:
         b.rotation = b.rotation - 360
     b = changePos(b, oldPieces, calculatePieces(b))
-    if (hasCollided(g.board, b, false)):
+    if (b.x < 0 || b.x > 9 || hasCollided(g.board, b, false)):
         b.x = oldX
         b.y = oldY
         b.rotation = b.rotation - 90
@@ -235,7 +220,7 @@ void rotateRight():
 
 //Given a block, its old piece matrix and its new piece matrix, determine the change in position of the block
 //and return a block with the new x and y
-Block changePos(Block b, [[bool]] old, [[bool]] new):
+Block changePos(Block b, [[bool]] old, [[bool]] newBlock):
     int oldX = 4
     int oldY = 4
     int newX = 4
@@ -248,7 +233,7 @@ Block changePos(Block b, [[bool]] old, [[bool]] new):
                     oldX = i
                 if j < oldY:
                     oldY = j
-            if new[i][j]:
+            if newBlock[i][j]:
                 if i < newX:
                     newX = i
                 if j < newY:
@@ -266,12 +251,12 @@ bool hasCollided(Board board, Block block, bool isUpdate):
     bool valid = true
     for i in block.x..(block.x+4):
         for j in block.y..(block.y+4):
-            if (board[i][j] && pieces[i-block.x][j-block.y]):
+            if (block.y > 19 || (board[i][j] && pieces[i-block.x][j-block.y])):
                 if !(isUpdate):
                     return true
                 valid = false
     if valid:
-        return true
+        return false
     block.y = block.y - 1
     for i in block.x..(block.x+4):
         for j in block.y..(block.y+4):
@@ -281,6 +266,7 @@ bool hasCollided(Board board, Block block, bool isUpdate):
     Game g = getGame()
     g.board = board
     setGame(g)
+    return true
 
 Board clearLines(Board board):
     bool line = true
