@@ -8,6 +8,7 @@ native void setGame(Game g)
 native Game getGame()
 native int rand()
 native void gameOver()
+native void addScore()
 
 void init():
     Game g = {current:makeBlock(), nextBlock:makeBlock(), board:makeBoard()}
@@ -82,6 +83,13 @@ void rotateLeft():
     if b.rotation < 0:
         b.rotation = 360 + b.rotation
     b = changePos(b, oldPieces, calculatePieces(b))
+    if (b.kind == 1):
+        if (b.rotation == 0 || b.rotation == 180):
+            b.x = b.x + 1
+            b.y = b.y - 2
+        else:
+            b.x = b.x - 1
+            b.y = b.y + 2
     if (b.x < 0 || b.x > 9 || hasCollided(g.board, b, false)):
         b.x = oldX
         b.y = oldY
@@ -101,6 +109,13 @@ void rotateRight():
     if b.rotation >= 360:
         b.rotation = b.rotation - 360
     b = changePos(b, oldPieces, calculatePieces(b))
+    if (b.kind == 1):
+        if (b.rotation == 0 || b.rotation == 180):
+            b.x = b.x - 1
+            b.y = b.y + 2
+        else:
+            b.x = b.x + 1
+            b.y = b.y - 2
     if (b.x < 0 || b.x > 9 || hasCollided(g.board, b, false)):
         b.x = oldX
         b.y = oldY
@@ -296,4 +311,8 @@ Board clearLines(Board board):
                     board[i][j] = false
                     board[i][j+numCleared] = true
             j = j-1
+        int num = 0;
+        for i in 0.. numCleared:
+            num = num + 100*i
+        addScore(num)
     return board

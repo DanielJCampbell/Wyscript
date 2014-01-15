@@ -1,7 +1,8 @@
 var game = {};
 var state = "start";
-
-var running = true;
+var score = 0;
+var nextScore = 1000;
+var tickTime = 500;
 
 function getGame() {
 	return game;
@@ -11,8 +12,13 @@ function setGame(g) {
 	game = g;
 }
 
+function addScore(i) {
+	score = score + i;
+}
+
 function gameOver() {
 	init();
+	score = 0;
 	state = "start";
 }
 
@@ -55,8 +61,12 @@ function rand() {
 function doTick() {
 	if (state !== "running")
 		return;
+	if (score > nextScore) {
+	    nextScore = nextScore + 1000;
+	    tickTime = ~~(tickTime * 0.9);
+	 }
 	update();
-	setTimeout(function() { doTick();}, 500);
+	setTimeout(function() { doTick();}, tickTime);
 }
 
 function draw() {
@@ -82,11 +92,12 @@ function draw() {
 		g.strokeText("BEGIN THE GAME", 100, 240);
 		return;
 	}
-	g.strokeText("WYTRIS", 225, 100);
+	g.strokeText("WYTRIS", 225, 50);
 	
 	g.rect(450, 125, 100, 100);
 	g.stroke();
 	g.strokeText("NEXT", 450, 100);
+	g.strokeText("SCORE: " + score, 25, 100);
 	
 	
 	
