@@ -1,7 +1,0 @@
-void f(int x):
-    for i in 0..x:
-        f(i)
-    print x
-
-void main():
-    f(5)

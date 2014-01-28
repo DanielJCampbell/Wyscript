@@ -1,8 +1,0 @@
-/*  Multi-Line Comment Test
- *  WyScript should accept this without complaint
- *  etc etc.
- */
-
- void main():
-	print "OK"
-

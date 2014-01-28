@@ -1,0 +1,46 @@
+native function setCanvas(int x, int y, (int, int, int) color) => void
+
+function palette(int iterations, int max) => (int, int, int):
+    int base = 200
+    int multiplier = max/200
+    int redDiff = (iterations/multiplier)
+    int greenDiff = (iterations/(multiplier*2))
+    
+    if (redDiff > max):
+        redDiff = 200
+        greenDiff = 200
+    
+    return (base-redDiff, base-greenDiff, 0)
+    
+function diff((real, real) tuple) => real:
+    real x
+    real y
+    x, y = tuple
+    return (x-y)
+    
+function first((real, real) tuple) => real:
+    real a
+    real b
+    a, b = tuple
+    return a
+
+function mandelbrot(int max, (real, real) xScale, (real, real) yScale) => void:
+    real xDiff = diff(xScale)
+    real yDiff = diff(yScale)
+    real zx = ((real)xDiff)/600
+    real zy = ((real)yDiff)/600
+    
+    for i in 0..600:
+        for j in 0..600:
+            real x0 = (i*zx)-first(xScale)
+            real y0 = (j*zy)-first(yScale)
+            real x = 0.0
+            real y = 0.0
+            int n = 0
+            while ( (x*x + y*y) < 4 && n < max):
+                tmp = (x*x) - (y*y) + x0
+                y = (2*x*y) + y0
+                x = tmp
+                n = n+1
+            (int, int, int) color = palette(n, max)
+            setCanvas(i, j, color)

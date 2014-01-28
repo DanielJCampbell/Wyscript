@@ -1,8 +1,0 @@
-real f(real x):
-    return - x
-
-void main():
-    print f(1.2)
-    print f(1.0E-5)
-    print f(5632.0)
-

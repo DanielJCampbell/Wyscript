@@ -1,9 +1,0 @@
-type Rec is {real x}
-type NestRec is {real x, Rec y}
-
-type CastRec is {real x, {int x} y}
-
-void main():
-    NestRec tmp = {x: 4.4, y: {x: 4.0}}
-    CastRec result = (CastRec)tmp
-    print result

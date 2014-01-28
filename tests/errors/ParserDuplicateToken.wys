@@ -1,4 +1,0 @@
-type record is {
-	int x,
-	int x
-}

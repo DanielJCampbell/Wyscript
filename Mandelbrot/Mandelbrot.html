@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src = "Wyscript.js"></script>
+    <script src = "Mandelbrot.js"></script>
+    <script src = "canvas.js"></script>
+    <title> Mandelbrot Set Visualizer </title>
+  </head>
+
+  <body>
+    <form>
+      <div>minX: <input type = "text" id = "minX" value = "-2.5"/> </div>
+      <div>maxX: <input type = "text" id = "maxX" value = "1"/> </div>
+      <div>minY: <input type = "text" id = "minY" value = "-1"/> </div>
+      <div>maxY: <input type = "text" id = "maxY" value = "1"/> </div>
+      <div>maxIter: <input type = "text" id = "iterations" value = "600"/> </div>
+    </form>
+    <div><button type = "button" onclick = "render()" id = "render">Render!</button></div>
+    <div>
+	<canvas id = "canvas" width = 600 height = 600
+		     style = "border:1px solid #000000; position:relative; top:10px; left:10px;"/>
+    </div>
+  </body>
+
+</html>

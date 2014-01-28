@@ -1,7 +1,0 @@
-constant PI is 3.1415
-
-constant TWO_PI is 2.0 * PI
-
-void main():
-    print TWO_PI
-

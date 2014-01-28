@@ -1,9 +1,0 @@
-type point is {int y, int x}
-
-point f(point x):
-    return x
-
-void main():
-    point p = f({x: 1, y: 1})
-    print p
-
