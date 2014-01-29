@@ -1,20 +1,34 @@
 var grid = [];
 
 function getX() {
- 	return new Wyscript.Tuple([new Wyscript.Float(document.getElementById("minX").value), new Wyscript.Float(document.getElementById("maxX").value)], new Wyscript.Type.Tuple([new Wyscript.Type.Real(), new Wyscript.Type.Real()]));
+ 	return new Wyscript.Tuple([new Wyscript.Float(parseFloat(document.getElementById("minX").value)), new Wyscript.Float(parseFloat(document.getElementById("maxX").value))], new Wyscript.Type.Tuple([new Wyscript.Type.Real(), new Wyscript.Type.Real()]));
 }
 
 function getY() {
-	return new Wyscript.Tuple([new Wyscript.Float(document.getElementById("minY").value), new Wyscript.Float(document.getElementById("maxY").value)], new Wyscript.Type.Tuple([new Wyscript.Type.Real(), new Wyscript.Type.Real()]));
+	return new Wyscript.Tuple([new Wyscript.Float(parseFloat(document.getElementById("minY").value)), new Wyscript.Float(parseFloat(document.getElementById("maxY").value))], new Wyscript.Type.Tuple([new Wyscript.Type.Real(), new Wyscript.Type.Real()]));
 }
 
 function getIterations() {
-	return new Wyscript.Integer( document.getElementById("iterations").value);
+	return new Wyscript.Integer(~~(document.getElementById("iterations").value));
 }
-
-function setCanvas(x, y, colour) {
+function palette(n) {
+	var iters = n.num
+	var base = 200
+	var max = getIterations().num;
+	var multiplier = (max/200);
+	if (iters === max || iters/multiplier >= 200)
+		return [0,0,0];
+	var colour = [];
+	colour[0] = ~~(base-(iters/multiplier))
+	colour[1] = 0
+	colour[2] = 100
+	return colour;
+}
+ 
+function setCanvas(x, y, n) {
 	var jsX = x.num;
 	var jsY = y.num;
+	var colour = palette(n);
 	if (grid[jsX] === undefined)
 		grid[jsX] = [];
 	grid[jsX][jsY] = colour;
@@ -40,9 +54,9 @@ function render() {
 	for (x = 0; x < 600; x++) {
 		for (y = 0; y < 600; y++) {
 			colour = grid[x][y];
-			r = colour.values[0].num;
-			gr = colour.values[1].num;
-			b = colour.values[2].num;
+			r = colour[0];
+			gr = colour[1];
+			b = colour[2];
 			d[0] = r;
 			d[1] = gr;
 			d[2] = b;
