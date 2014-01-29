@@ -1,13 +1,11 @@
 var grid = [];
 
 function getX() {
- 	return new Wyscript.Tuple([new Wyscript.Real(document.getElementById("minX").value), new Wyscript.Real(document.getElementById("maxX").value)],
- 										 new Wyscript.Type.Tuple([new Wyscript.Type.Real(), new Wyscript.Type.Real()]));
+ 	return new Wyscript.Tuple([new Wyscript.Float(document.getElementById("minX").value), new Wyscript.Float(document.getElementById("maxX").value)], new Wyscript.Type.Tuple([new Wyscript.Type.Real(), new Wyscript.Type.Real()]));
 }
 
 function getY() {
-	return new Wyscript.Tuple([new Wyscript.Real(document.getElementById("minY").value), new Wyscript.Real(document.getElementById("maxY").value)],
- 										 new Wyscript.Type.Tuple([new Wyscript.Type.Real(), new Wyscript.Type.Real()]));
+	return new Wyscript.Tuple([new Wyscript.Float(document.getElementById("minY").value), new Wyscript.Float(document.getElementById("maxY").value)], new Wyscript.Type.Tuple([new Wyscript.Type.Real(), new Wyscript.Type.Real()]));
 }
 
 function getIterations() {
@@ -31,7 +29,7 @@ function render() {
 	var x = getX();
 	var y = getY();
 	var r;
-	var g;
+	var gr;
 	var b;
 	var colour;
 	var iter = getIterations();
@@ -42,11 +40,11 @@ function render() {
 	for (x = 0; x < 600; x++) {
 		for (y = 0; y < 600; y++) {
 			colour = grid[x][y];
-			r = colour.values[0];
-			g = colour.values[1];
-			b = colour.values[2];
+			r = colour.values[0].num;
+			gr = colour.values[1].num;
+			b = colour.values[2].num;
 			d[0] = r;
-			d[1] = g;
+			d[1] = gr;
 			d[2] = b;
 			d[3] = 255;
 			g.putImageData(id, x, y);
