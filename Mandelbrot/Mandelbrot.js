@@ -29,12 +29,8 @@ function mandelbrot(max, xScale, yScale) {
         $WyTmp1.count = 0;
         for($WyTmp1.count = 0; $WyTmp1.count < $WyTmp1.list.length; $WyTmp1.count++) {
             var j = $WyTmp1.list[$WyTmp1.count];
-	    var xf = first(xScale.clone());
-	    var yf = first(yScale.clone());
-	    var xTmp = new Wyscript.Float(i).mul(zx);
-	    var yTmp = new Wyscript.Float(j).mul(zy);
-            var x0 = xTmp.add(xf);
-            var y0 = yTmp.add(yf);
+            var x0 = ((Wyscript.cast(new Wyscript.Type.Real(), i).mul(zx)).add(first(xScale.clone())));
+            var y0 = ((Wyscript.cast(new Wyscript.Type.Real(), j).mul(zy)).add(first(yScale.clone())));
             var x = new Wyscript.Float(0.0);
             var y = new Wyscript.Float(0.0);
             var n = new Wyscript.Integer(0);
