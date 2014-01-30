@@ -13,15 +13,15 @@ function getIterations() {
 }
 function palette(n) {
 	var iters = n.num
-	var base = 200
+	var maxCol = 200
 	var max = getIterations().num;
-	var multiplier = (max/200);
-	if (iters === max || iters/multiplier >= 200)
+	var multiplier = (max/maxCol);
+	if (iters === max || iters/multiplier >= maxCol)
 		return [0,0,0];
 	var colour = [];
-	colour[0] = ~~(base-(iters/multiplier))
-	colour[1] = 0
-	colour[2] = 100
+	colour[0] = 0
+	colour[1] = ~~(50+(iters/multiplier))
+	colour[2] = 50
 	return colour;
 }
  
